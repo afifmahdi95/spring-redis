@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!--adminLte-->
+    <link rel="stylesheet" type="text/css" href="assets/adminlte/css/AdminLTE.min.css">
+    <!--bootstrap-->
+    <!--    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--font-awesome-->
+    <link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css">
+    <!--Parsley-->
+    <link rel="stylesheet" type="text/css" href="assets/Parsley.js-2.8.1/dist/parsley.css">
+    <!--datepicker-->
+    <link rel="stylesheet" type="text/css" href="assets/datepicker/css/bootstrap-datepicker.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="assets/adminlte/css/skins/_all-skins.min.css">
+    <!--custom Css-->
+    <link rel="stylesheet" type="text/css" href="assets/customcss/tambah_pelamar.css">
+
+    <title>Insert Data</title>
+</head>
+<body>
+    <form id="datas">
+        <div class="form-group">
+            <label for="originCode">Origin Code</label>
+            <input type="text" class="form-control" id="originCode" placeholder="Origin Code">
+        </div>
+        <div class="form-group">
+            <label for="destinationCode">Destination Code</label>
+            <input type="text" class="form-control" id="destinationCode" placeholder="Destination Code">
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price" placeholder="Price">
+        </div>
+        <div class="form-group">
+            <label for="product">Product</label>
+            <input type="text" class="form-control" id="product" placeholder="Product">
+        </div>
+        <button type="button" id="addData" class="btn btn-primary">Submit</button>
+    </form>
+
+<!--jquery-->
+<script src="/assets/jquery/jquery.min.js"></script>
+<!--adminLte-->
+<script src="/assets/adminlte/js/adminlte.min.js"></script>
+<!--bootstrap-->
+<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+<!--slimscroll-->
+<script src="/assets/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+    $('#addData').click(()=>{
+        console.log("origin", document.getElementById('originCode').value)
+        console.log("destination", document.getElementById('destinationCode').value)
+        console.log("price", document.getElementById('price').value)
+        console.log("product", document.getElementById('product').value)
+
+        const data = {"originCode" : document.getElementById('originCode').value,
+            "destinationCode" : document.getElementById('destinationCode').value,
+            "price" : document.getElementById('price').value,
+            "product" : document.getElementById('product').value
+        }
+
+        console.log("data", data)
+
+        $.ajax({
+                url:'/v1/add',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success:(res)=>{
+                    console.log("success", res)
+                    swal({title: 'Success', text: 'Data Berhasil Ditambahkan',icon: 'success'})
+                    $('#datas').trigger("reset");
+                },
+                error:(res)=>{
+                    console.log('error: '+res)
+                    swal({title: 'Gagal', text: 'Data Gagal Tersimpan',icon: 'error'})
+                }
+            })
+
+    })
+</script>
+
+</body>
+</html>
